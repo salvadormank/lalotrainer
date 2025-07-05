@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coach Pro - Entrenamiento de Élite</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-purple: #6b46c1;
+            --secondary-purple: #7c3aed;
+            --accent-green: #10b981;
+            --dark-bg: #0f0f23;
+            --card-bg: #1a1b2e;
+            --text-white: #ffffff;
+            --text-gray: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 15, 35, 0.95) !important;
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--text-white) !important;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-white) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            padding: 0.7rem 1.2rem !important;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(107, 70, 193, 0.7) 50%, rgba(139, 92, 246, 0.8) 100%),
+                url('https://images.unsplash.com/photo-1577223625816-7546f13df25d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(16, 185, 129, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(107, 70, 193, 0.3) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.7) 0%, rgba(107, 70, 193, 0.6) 50%, rgba(139, 92, 246, 0.7) 100%),
+                url('https://images.unsplash.com/photo-1566150905458-1bf1fc92528b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-gray);
+        }
+
+        .coach-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-green);
+            object-fit: cover;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Sections */
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-green);
+            border-radius: 2px;
+        }
+
+        /* Techniques List Styling */
+        .techniques-list {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .technique-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .technique-item:hover {
+            transform: translateX(10px);
+            background: rgba(107, 70, 193, 0.2);
+            border-color: var(--accent-green);
+        }
+
+        .technique-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .technique-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
+            color: var(--text-white);
+            font-weight: 800;
+            font-size: 1.2rem;
+            border-radius: 15px;
+            margin-right: 2rem;
+            min-width: 80px;
+        }
+
+        .technique-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        /* Cards */
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(107, 70, 193, 0.3);
+            border-color: var(--accent-green);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .feature-description {
+            color: var(--text-gray);
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--card-bg);
+            padding: 100px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-green);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+        }
+
+        /* Buttons */
+        .btn-custom {
+            background: linear-gradient(135deg, var(--accent-green), #059669);
+            color: var(--text-white);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+            color: var(--text-white);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-bg);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links a {
+            color: var(--text-white);
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-green);
+            transform: translateY(-3px);
+        }
+
+        /* GOAT Badge */
+        .goat-badge {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1a1b2e;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .goat-emoji {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        @keyframes glow {
+            0% { 
+                box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+                transform: scale(1);
+            }
+            100% { 
+                box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            /* Navbar adjustments */
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+
+            .navbar-nav .nav-link {
+                padding: 0.8rem 1rem !important;
+                margin: 0.2rem 0;
+                text-align: center;
+            }
+
+            .navbar-toggler {
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                padding: 0.5rem 0.7rem;
+            }
+
+            /* Hero section mobile adjustments */
+            .hero-section {
+                min-height: 100vh;
+                background-attachment: scroll;
+                background-position: center top;
+            }
+
+            .hero-content {
+                padding: 2rem 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+                line-height: 1.2;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .coach-photo {
+                width: 200px;
+                height: 200px;
+                margin-top: 2rem;
+            }
+
+            /* Section titles */
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 3rem;
+            }
+
+            /* Technique items mobile layout */
+            .technique-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem 1rem;
+            }
+
+            .technique-number {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                width: 60px;
+                height: 60px;
+                font-size: 1rem;
+            }
+
+            .technique-name {
+                font-size: 1.1rem;
+            }
+
+            /* Buttons mobile spacing */
+            .btn-custom {
+                padding: 12px 25px;
+                font-size: 1rem;
+                margin: 0.5rem;
+                display: block;
+                width: 100%;
+                max-width: 280px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            /* CTA section mobile */
+            .cta-section .btn-custom {
+                display: inline-block;
+                width: auto;
+                min-width: 200px;
+                margin: 0.5rem 0.2rem;
+            }
+
+            /* Cards mobile adjustments */
+            .feature-card {
+                padding: 2rem 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .feature-title {
+                font-size: 1.3rem;
+            }
+
+            /* Stats mobile */
+            .stat-item {
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2.2rem;
+            }
+
+            /* Section padding mobile */
+            .section-padding {
+                padding: 60px 0;
+            }
+
+            /* Container padding */
+            .container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .coach-photo {
+                width: 180px;
+                height: 180px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .btn-custom {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+
+            .cta-section .btn-custom {
+                width: 100%;
+                margin: 0.3rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-football-ball me-2"></i>Coach 101 Aram Ramos
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">
+                            <i class="fas fa-home me-1"></i>Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tecnicas">
+                            <i class="fas fa-chess me-1"></i>Técnicas de Juego
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#drills">
+                            <i class="fas fa-running me-1"></i>Drills
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#fundamentos">
+                            <i class="fas fa-book me-1"></i>Fundamentos Básicos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#elite">
+                            <i class="fas fa-trophy me-1"></i>Elite
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <div class="goat-badge">
+                        <span class="goat-emoji">🐐</span>
+                        <span>G.O.A.T</span>
+                    </div>
+                    <h1 class="hero-title">Coach Marcus Rivera</h1>
+                    <p class="hero-subtitle">Transformando atletas en campeones desde 2010</p>
+                    <p class="lead mb-4">Especialista en desarrollo de equipos de élite con más de 15 años de experiencia en fútbol americano profesional y universitario.</p>
+                    <a href="#contact" class="btn btn-custom">
+                        <i class="fas fa-phone me-2"></i>Contactar Ahora
+                    </a>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="https://images.unsplash.com/photo-1566577739112-5180d4bf9390?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Coach Marcus Rivera" class="coach-photo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Técnicas de Juego -->
+    <section id="tecnicas" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Técnicas de Juego</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="techniques-list">
+                        <div class="technique-item">
+                            <span class="technique-number">COB 0</span>
+                            <span class="technique-name">Técnica COB 0</span>
+                        </div>
+                        <div class="technique-item">
+                            <span class="technique-number">COB 1</span>
+                            <span class="technique-name">Técnica COB 1</span>
+                        </div>
+                        <div class="technique-item">
+                            <span class="technique-number">COB 2</span>
+                            <span class="technique-name">Técnica COB 2</span>
+                        </div>
+                        <div class="technique-item">
+                            <span class="technique-number">COB 3</span>
+                            <span class="technique-name">Técnica COB 3</span>
+                        </div>
+                        <div class="technique-item">
+                            <span class="technique-number">COB 4</span>
+                            <span class="technique-name">Técnica COB 4</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label">Años de Experiencia</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">250+</span>
+                        <span class="stat-label">Atletas Entrenados</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Campeonatos Ganados</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Tasa de Éxito</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Drills Section -->
+    <section id="drills" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Programa de Entrenamiento</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3 class="feature-title">Principiantes</h3>
+                        <p class="feature-description">Fundamentos básicos del fútbol americano. Técnicas de posición, movimientos fundamentales y conceptos esenciales para nuevos atletas.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Medios</h3>
+                        <p class="feature-description">Desarrollo de habilidades intermedias. Combinación de técnicas, mejora de velocidad y comprensión táctica del juego.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="feature-title">Avanzados</h3>
+                        <p class="feature-description">Técnicas especializadas y sistemas complejos. Preparación para competencia de alto nivel y perfeccionamiento de habilidades específicas.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3 class="feature-title">Elite</h3>
+                        <p class="feature-description">Entrenamiento de élite para atletas profesionales. Programas personalizados, análisis avanzado y preparación para el más alto nivel competitivo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fundamentos Básicos -->
+    <section id="fundamentos" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Fundamentos Básicos</h2>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-hand-paper"></i>
+                        </div>
+                        <h3 class="feature-title">Técnica de Catch</h3>
+                        <p class="feature-description">Bases sólidas para recepciones seguras en cualquier situación de juego, desde pases cortos hasta bombs profundos.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-fist-raised"></i>
+                        </div>
+                        <h3 class="feature-title">Tacleo Efectivo</h3>
+                        <p class="feature-description">Fundamentos del tacleo seguro y efectivo, técnicas de contacto apropiadas y posicionamiento defensivo óptimo.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="feature-title">Lectura de Jugadas</h3>
+                        <p class="feature-description">Desarrollo de la inteligencia futbolística para leer defensas y tomar decisiones rápidas en el campo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Elite Section -->
+    <section id="elite" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Programa Elite</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="feature-card">
+                        <h3 class="feature-title text-start">Entrenamiento de Alto Rendimiento</h3>
+                        <p class="feature-description text-start">Programa exclusivo para atletas que buscan alcanzar el nivel profesional. Incluye análisis de video, preparación mental y acondicionamiento avanzado.</p>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-2"><i class="fas fa-check me-2" style="color: var(--accent-green);"></i>Análisis de video personalizado</li>
+                            <li class="mb-2"><i class="fas fa-check me-2" style="color: var(--accent-green);"></i>Preparación psicológica</li>
+                            <li class="mb-2"><i class="fas fa-check me-2" style="color: var(--accent-green);"></i>Nutrición especializada</li>
+                            <li class="mb-2"><i class="fas fa-check me-2" style="color: var(--accent-green);"></i>Seguimiento individual</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3 class="feature-title">Resultados Garantizados</h3>
+                        <p class="feature-description">Nuestros atletas elite han logrado becas universitarias completas y oportunidades en ligas profesionales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="display-4 mb-4">¿Listo para Elevar tu Juego?</h2>
+                    <p class="lead mb-4">Únete a más de 250 atletas que han transformado su carrera con nuestro programa de entrenamiento especializado.</p>
+                    <a href="#contact" class="btn btn-custom me-3">
+                        <i class="fas fa-calendar me-2"></i>Agendar Consulta
+                    </a>
+                    <a href="tel:+525555555555" class="btn btn-custom">
+                        <i class="fas fa-phone me-2"></i>Llamar Ahora
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5>Coach Marcus Rivera</h5>
+                    <p>Entrenador Profesional de Fútbol Americano</p>
+                    <p>México City, México</p>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <div class="social-links mb-3">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                    <p>&copy; 2025 Coach Pro. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(15, 15, 35, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(15, 15, 35, 0.95)';
+            }
+        });
+
+        // Animate numbers
+        function animateNumbers() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                const suffix = stat.textContent.replace(/[0-9]/g, '');
+                let current = 0;
+                const increment = target / 100;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target + suffix;
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current) + suffix;
+                    }
+                }, 20);
+            });
+        }
+
+        // Intersection Observer for stats
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateNumbers();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    </script>
+</body>
+</html>
